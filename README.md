@@ -7,5 +7,5 @@ File Distribution
 2. parser.py : THis file parse the json input and also calls the verifier.py
 3. verifier.py : This contain the code of verifier is called by parser.py
 
-Instruction to run the program
+Instruction to run the program<br />
 python3 parser.py <input.json>
