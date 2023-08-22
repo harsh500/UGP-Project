@@ -2,6 +2,9 @@
     "variables_used":[
         "x","y","z","w","a","b","u","v","c"
     ],
+    "program_type":[
+        "non-probabilistic"
+    ],
     "P":[
         "x==0","z==0"
     ],

@@ -1,7 +1,8 @@
 from z3 import *
 
 def add_new_z3_variable(x):
-    exec("global %s; %s = Int(\"%s\")"%(x,x,x))
+    exec("global %s; %s = Real(\"%s\")"%(x,x,x))
+    print(type(x))
 
 def addConstraint(constraint,s):
     exec("s.add(%s)"%(constraint))

@@ -1,6 +1,5 @@
 import sys
 import json
-
 from z3 import  *
 from temp import example
 from helpers import * 
@@ -24,41 +23,39 @@ if __name__ == '__main__':
     data = json.load(f)
 
     for i in data["variables_used"]:
-        add_new_z3_variable(i)
-        # print(type(i))
+        exec("global %s; %s = Real(\"%s\")"%(i,i,i))
 
     s = Solver()
-
-    # for i in data["R"]:
-    #     addConstraint(i,s)
-
-    print(s.assertions())
-
-    p1_1 = do_back_tracking_for_thread(data["Q"]["T1"],data["R"])
-    print(p1_1)
-    f2 = open("debug.txt","w")
-    f2.write(p1_1)
-    
-    addConstraint(p1_1,s)
-    # p2_2 = do_back_tracking_for_thread(data["Q"]["T2"],data["R"])
-    # for i in p1_1:
-    #     addConstraint(i,s)
-    # for i in p2_2:
-    #     addConstraint(i,s)
-    print(s.assertions())
-    print("wdfvyqegydqevyfy\n\n\n\n\n")
-    print(solve(s.assertions()))
-
-    
-
-    # solver_variable_mappings = precompute()
-    # # print(convert_assignment_to_z3(data["T1"][0]["lhs"],data["T1"][0]["rhs1"],solver_variable_mappings))
-    # print(convert_assignment_to_z3(data["T1"][1]["lhs"],data["T1"][1]["rhs1"],solver_variable_mappings,data["T1"][1]["operator"],data["T1"][1]["rhs2"]))
-    # z= convert_assignment_to_z3(data["T1"][1]["lhs"],data["T1"][1]["rhs1"],solver_variable_mappings,data["T1"][1]["operator"],data["T1"][1]["rhs2"])
-    # s = Solver()
-    # s.add(z)
-    # solve(s.assertions())
-    # print("DSFDGRF")
-    # example()    
-
-
+    if(data["program_type"][0]=="probabilistic"):
+        p1_1 = do_back_tracking_for_thread_parallel_version(data["Q"]["T1"],data["R"])
+        given_cond=data["P"][0]
+        f2 = open("debug.txt","w")
+        f2.write(p1_1)
+        final= given_cond + " < " + p1_1
+        final=eval(final)
+        print("-------------------------")
+        print(final)
+        print("-------------------------")
+        s.add(final)
+        if(s.check()==sat):
+            print("The given proof is wrong and counter example is: ")
+            print(s.model())
+        else:
+            print("The given proof is correct")  
+    if(data["program_type"][0]=="non-probabilistic"):
+        p1_1 = do_back_tracking_for_thread(data["Q"]["T1"],data["R"])
+        print(p1_1)
+        f2 = open("debug.txt","w")
+        f2.write(p1_1)
+        given_cond="True"
+        for cond in data["P"]:
+            given_cond="And("+given_cond+","+cond+")"
+        final="And("+p1_1+",Not("+given_cond+"))"
+        final=eval(final)
+        s.add(final)
+        print(s.assertions())
+        if(s.check()==sat):
+            print("The given proof is wrong and counter example is: ")
+            print(s.model())
+        else:
+            print("The given proof is correct")

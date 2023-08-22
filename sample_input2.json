@@ -2,22 +2,78 @@
     "variables_used":[
         "x","y","z","w","a","b","u","v","c"
     ],
+    "program_type":[
+        "probabilistic"
+    ],
     "P":[
-        "x==0","z==0"
+        "4*x+1000000000000"
     ],
     "Q":{
         "T1":[
             {
                 "instruction_type":"assignment",
-                "lhs":"a",
-                "rhs":"x+100",
+                "lhs":"x",
+                "rhs":"x",
                 "previous_possible_instructions":[-1]
             },
             {
                 "instruction_type":"assignment",
-                "lhs":"y",
-                "rhs":"2*a+5",
+                "lhs":"a",
+                "rhs":"x+100",
                 "previous_possible_instructions":[0]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"y",
+                "rhs":"2*a+8",
+                "previous_possible_instructions":[1]
+            },
+            {
+                "instruction_type":"condition_on_prob",
+                "probability":"1/4",
+                "previous_possible_instructions":[2]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"3*y+6",
+                "previous_possible_instructions":[3]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"2*y+4",
+                "previous_possible_instructions":[3]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"u+5",
+                "previous_possible_instructions":[4,5],
+                "branch_starts":[4,5]
+            },
+            {
+                "instruction_type":"demonic_choice",
+                "previous_possible_instructions":[6]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"u+4",
+                "previous_possible_instructions":[7]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"u+7",
+                "previous_possible_instructions":[7]
+            },
+            {
+                "instruction_type":"assignment",
+                "lhs":"u",
+                "rhs":"u",
+                "previous_possible_instructions":[8,9],
+                "branch_starts":[8,9]
             }
         ],
         "T2":[
@@ -33,6 +89,6 @@
             }
         ]    
     },
-    "R":"y"
+    "R":"u+w"
     
 }
